@@ -227,7 +227,7 @@ const waitForDeploymentToStart = async ({
           return deployment.creator.login === actorName;
         });
 
-      console.log(`Deployment found: ${deployment}`);
+      console.log(`Deployment found: ${JSON.stringify(deployment)}`);
 
       if (deployment) {
         if (target_project === '') {
