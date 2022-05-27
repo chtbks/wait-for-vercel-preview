@@ -227,7 +227,14 @@ const waitForDeploymentToStart = async ({
           console.log('target_project', target_project);
           console.log('deployment.environment', deployment.environment);
           console.log('Matched? ', deployment.environment.includes(target_project));
-          return target_project === '' ? deployment.creator.login === actorName : deployment.creator.login === actorName && deployment.environment.includes(target_project);
+          const matchesActor = deployment.creator.login === actorName;
+          if (target_project === '' && matchesActor) {
+            return true;
+          }
+          if (target_project !== '' && deployment.environment.includes(target_project) && matchesActor) {
+            return true;
+          }
+          return false;
         });
 
       console.log(`Deployment found: ${JSON.stringify(JSON.parse(deployment))}`);
