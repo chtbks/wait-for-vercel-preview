@@ -246,17 +246,7 @@ const waitForDeploymentToStart = async ({
       console.log(`Deployment found: ${JSON.stringify(JSON.parse(deployment))}`);
 
       if (deployment) {
-        console.log('Target project', target_project);
-        if (target_project === '') {
-          return deployment;
-        } else {
-          console.log('Target project', target_project);
-          console.log('Deployment environment', deployment.environment);
-          if (deployment.environment.includes(target_project)) {
-            console.log('Match found!');
-            return deployment;
-          }
-        }
+        return deployment;
       }
 
       throw new Error(`no ${actorName} deployment found`);
