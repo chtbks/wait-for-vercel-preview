@@ -224,6 +224,9 @@ const waitForDeploymentToStart = async ({
       const deployment =
         deployments.data.length > 0 &&
         deployments.data.find((deployment) => {
+          console.log('deployment', JSON.stringify(deployment));
+          console.log('target_project', target_project);
+          console.log('deployment.target_url', deployment.target_url);
           return target_project === '' ? deployment.creator.login === actorName : deployment.creator.login === actorName && deployment.target_url.includes(target_project);
         });
 
