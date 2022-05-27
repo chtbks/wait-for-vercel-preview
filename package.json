@@ -1,11 +1,11 @@
 {
   "name": "wait-for-vercel-preview",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "",
   "main": "dist/index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/@chtbks/wait-for-vercel-preview.git"
+    "url": "git+https://github.com/chtbks/wait-for-vercel-preview.git"
   },
   "scripts": {
     "test": "jest --watch",
