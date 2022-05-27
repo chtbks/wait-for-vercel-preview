@@ -31,6 +31,10 @@ Optional - How often (in seconds) should we make the HTTP request checking to se
 
 Optional - The [password](https://vercel.com/docs/concepts/projects/overview#password-protection) for the deployment
 
+### `target_project`
+
+Optional - For multi-project Vercel repos, sometimes you need to specify which project to target for tests. This specifies the name of the project to use for testing
+
 ## Outputs
 
 ### `url`
