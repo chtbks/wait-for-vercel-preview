@@ -17,9 +17,9 @@
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/patrickedqvist/wait-for-vercel-preview/issues"
+    "url": "https://github.com/chtbks/wait-for-vercel-preview/issues"
   },
-  "homepage": "https://github.com/patrickedqvist/wait-for-vercel-preview#readme",
+  "homepage": "https://github.com/chtbks/wait-for-vercel-preview#readme",
   "dependencies": {
     "@actions/core": "^1.4.0",
     "@actions/github": "^5.0.0",
