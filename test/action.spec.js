@@ -39,7 +39,7 @@ afterEach(() => {
 
 describe('wait for vercel preview', () => {
   describe('environment setup', () => {
-    test('exits if the token is not provided', async () => {
+    test.only('exits if the token is not provided', async () => {
       setInputs({
         token: '',
       });
