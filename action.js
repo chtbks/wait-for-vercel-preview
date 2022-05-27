@@ -245,7 +245,6 @@ const waitForDeploymentToStart = async ({
         `Could not find any deployments for actor ${actorName}, retrying (attempt ${i + 1
         } / ${iterations})`
       );
-      console.error('Error: ', JSON.stringify(JSON.parse(e)));
       await wait(checkIntervalInMilliseconds);
     }
   }
