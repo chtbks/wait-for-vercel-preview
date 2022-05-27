@@ -289,7 +289,7 @@ const run = async () => {
     const PATH = core.getInput('path') || '/';
     const CHECK_INTERVAL_IN_MS =
       (Number(core.getInput('check_interval')) || 2) * 1000;
-    const PROJECT_TARGET = core.getInput('project_target');
+    const TARGET_PROJECT = core.getInput('target_project');
 
     // Fail if we have don't have a github token
     if (!GITHUB_TOKEN) {
@@ -333,6 +333,7 @@ const run = async () => {
       actorName: 'vercel[bot]',
       maxTimeout: MAX_TIMEOUT,
       checkIntervalInMilliseconds: CHECK_INTERVAL_IN_MS,
+      target_project: TARGET_PROJECT || ''
     });
 
     if (!deployment) {

@@ -27,7 +27,7 @@ inputs:
     description: 'The path to check. Defaults to the index of the domain'
     default: '/'
     required: false
-  project_target:
+  target_project:
     description: 'Targeted project in Vercel (e.g., my-project-{hash}.vercel.app)'
     required: false
 
