@@ -230,17 +230,23 @@ const waitForDeploymentToStart = async ({
       const deployment =
         deployments.data.length > 0 &&
         deployments.data.find((deployment) => {
-          console.log('target_project', target_project);
-          console.log('deployment.environment', deployment.environment);
-          console.log('Matched? ', deployment.environment.includes(target_project));
-          const matchesActor = deployment.creator.login === actorName;
-          if (target_project === '' && matchesActor) {
-            return true;
+          if (target_project === '') {
+            return deployment.creator.login === actorName;
+          } else if (target_project !== '') {
+            const matchesProject = deployment.environment.includes(target_project);
+            const matchesActor = deployment.creator.login === actorName;
+            console.log('target_project', target_project);
+            console.log('deployment.environment', deployment.environment);
+            console.log('Matched Project? ', matchesProject);
+            console.log('Matched Actor? ', matchesActor);
+            if (matchesProject && matchesActor) {
+              return true;
+            } else {
+              return false;
+            }
+          } else {
+            return false;
           }
-          if (target_project !== '' && deployment.environment.includes(target_project) && matchesActor) {
-            return true;
-          }
-          return false;
         });
 
       console.log(`Deployment found: ${JSON.stringify(JSON.parse(deployment))}`);
@@ -13050,7 +13056,7 @@ module.exports = JSON.parse('[[[0,44],"disallowed_STD3_valid"],[[45,46],"valid"]
 /***/ ((module) => {
 
 "use strict";
-module.exports = JSON.parse('{"name":"wait-for-vercel-preview","version":"1.2.10","description":"","main":"dist/index.js","repository":{"type":"git","url":"git+https://github.com/chtbks/wait-for-vercel-preview.git"},"scripts":{"test":"jest --watch","test:ci":"jest --ci","test:ci:coverage":"jest --ci --collect-coverage  --silent","build":"ncc build index.js -o dist"},"keywords":[],"author":"","license":"ISC","bugs":{"url":"https://github.com/chtbks/wait-for-vercel-preview/issues"},"homepage":"https://github.com/chtbks/wait-for-vercel-preview#readme","dependencies":{"@actions/core":"^1.4.0","@actions/github":"^5.0.0","@octokit/webhooks-definitions":"^3.67.3","@vercel/ncc":"^0.33.1","axios":"^0.21.1","set-cookie-parser":"^2.4.8"},"devDependencies":{"@types/jest":"^27.4.0","deepmerge":"^4.2.2","jest":"^27.4.7","msw":"^0.36.4"}}');
+module.exports = JSON.parse('{"name":"wait-for-vercel-preview","version":"1.2.11","description":"","main":"dist/index.js","repository":{"type":"git","url":"git+https://github.com/chtbks/wait-for-vercel-preview.git"},"scripts":{"test":"jest --watch","test:ci":"jest --ci","test:ci:coverage":"jest --ci --collect-coverage  --silent","build":"ncc build index.js -o dist"},"keywords":[],"author":"","license":"ISC","bugs":{"url":"https://github.com/chtbks/wait-for-vercel-preview/issues"},"homepage":"https://github.com/chtbks/wait-for-vercel-preview#readme","dependencies":{"@actions/core":"^1.4.0","@actions/github":"^5.0.0","@octokit/webhooks-definitions":"^3.67.3","@vercel/ncc":"^0.33.1","axios":"^0.21.1","set-cookie-parser":"^2.4.8"},"devDependencies":{"@types/jest":"^27.4.0","deepmerge":"^4.2.2","jest":"^27.4.7","msw":"^0.36.4"}}');
 
 /***/ })
 

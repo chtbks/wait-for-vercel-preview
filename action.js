@@ -224,17 +224,23 @@ const waitForDeploymentToStart = async ({
       const deployment =
         deployments.data.length > 0 &&
         deployments.data.find((deployment) => {
-          console.log('target_project', target_project);
-          console.log('deployment.environment', deployment.environment);
-          console.log('Matched? ', deployment.environment.includes(target_project));
-          const matchesActor = deployment.creator.login === actorName;
-          if (target_project === '' && matchesActor) {
-            return true;
+          if (target_project === '') {
+            return deployment.creator.login === actorName;
+          } else if (target_project !== '') {
+            const matchesProject = deployment.environment.includes(target_project);
+            const matchesActor = deployment.creator.login === actorName;
+            console.log('target_project', target_project);
+            console.log('deployment.environment', deployment.environment);
+            console.log('Matched Project? ', matchesProject);
+            console.log('Matched Actor? ', matchesActor);
+            if (matchesProject && matchesActor) {
+              return true;
+            } else {
+              return false;
+            }
+          } else {
+            return false;
           }
-          if (target_project !== '' && deployment.environment.includes(target_project) && matchesActor) {
-            return true;
-          }
-          return false;
         });
 
       console.log(`Deployment found: ${JSON.stringify(JSON.parse(deployment))}`);
