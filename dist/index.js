@@ -229,12 +229,12 @@ const waitForDeploymentToStart = async ({
 
       const deployment =
         deployments.data.length > 0 &&
-        deployments.data.find((deployment) => {
+        deployments.data.find((dep) => {
+          const matchesActor = dep.creator.login === actorName;
           if (target_project === '') {
-            return deployment.creator.login === actorName;
+            return matchesActor;
           } else {
-            const matchesProject = deployment.environment.includes(target_project);
-            const matchesActor = deployment.creator.login === actorName;
+            const matchesProject = dep.environment.includes(target_project);
             console.log('Matched Project? ', matchesProject);
             console.log('Matched Actor? ', matchesActor);
             return matchesActor && matchesProject;
@@ -249,6 +249,7 @@ const waitForDeploymentToStart = async ({
 
       throw new Error(`no ${actorName} deployment found`);
     } catch (e) {
+      console.log(`Error: ${e.message}`);
       console.log(
         `Could not find any deployments for actor ${actorName}, retrying (attempt ${i + 1
         } / ${iterations})`
