@@ -226,20 +226,12 @@ const waitForDeploymentToStart = async ({
         deployments.data.find((deployment) => {
           if (target_project === '') {
             return deployment.creator.login === actorName;
-          } else if (target_project !== '') {
+          } else {
             const matchesProject = deployment.environment.includes(target_project);
             const matchesActor = deployment.creator.login === actorName;
-            console.log('target_project', target_project);
-            console.log('deployment.environment', deployment.environment);
             console.log('Matched Project? ', matchesProject);
             console.log('Matched Actor? ', matchesActor);
-            if (matchesProject && matchesActor) {
-              return true;
-            } else {
-              return false;
-            }
-          } else {
-            return false;
+            return matchesActor && matchesProject;
           }
         });
 
