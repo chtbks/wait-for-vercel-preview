@@ -227,12 +227,14 @@ const waitForDeploymentToStart = async ({
           return deployment.creator.login === actorName;
         });
 
-      console.log(`Deployment found: ${JSON.stringify(deployment)}`);
+      console.log(`Deployment found: ${JSON.stringify(JSON.parse(deployment))}`);
 
       if (deployment) {
         if (target_project === '') {
           return deployment;
         } else {
+          console.log('Target project', target_project);
+          console.log('Deployment target_url', deployment.target_url);
           if (deployment.target_url.includes(target_project)) {
             return deployment;
           }
