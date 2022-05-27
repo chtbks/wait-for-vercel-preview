@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/patrickedqvist/wait-for-vercel-preview.git"
+    "url": "git+https://github.com/@chtbks/wait-for-vercel-preview.git"
   },
   "scripts": {
     "test": "jest --watch",
