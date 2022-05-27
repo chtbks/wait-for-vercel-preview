@@ -233,7 +233,7 @@ const waitForDeploymentToStart = async ({
           console.log('deployment', JSON.stringify(deployment));
           console.log('target_project', target_project);
           console.log('deployment.target_url', deployment.target_url);
-          return target_project === '' ? deployment.creator.login === actorName : deployment.creator.login === actorName && deployment.target_url.includes(target_project);
+          return target_project === '' ? deployment.creator.login === actorName : deployment.creator.login === actorName && deployment.environment.includes(target_project);
         });
 
       console.log(`Deployment found: ${JSON.stringify(JSON.parse(deployment))}`);
@@ -245,7 +245,7 @@ const waitForDeploymentToStart = async ({
         } else {
           console.log('Target project', target_project);
           console.log('Deployment target_url', deployment.target_url);
-          if (deployment.target_url.includes(target_project)) {
+          if (deployment.environment.includes(target_project)) {
             return deployment;
           }
         }
@@ -13042,7 +13042,7 @@ module.exports = JSON.parse('[[[0,44],"disallowed_STD3_valid"],[[45,46],"valid"]
 /***/ ((module) => {
 
 "use strict";
-module.exports = JSON.parse('{"name":"wait-for-vercel-preview","version":"1.2.3","description":"","main":"dist/index.js","repository":{"type":"git","url":"git+https://github.com/chtbks/wait-for-vercel-preview.git"},"scripts":{"test":"jest --watch","test:ci":"jest --ci","test:ci:coverage":"jest --ci --collect-coverage  --silent","build":"ncc build index.js -o dist"},"keywords":[],"author":"","license":"ISC","bugs":{"url":"https://github.com/patrickedqvist/wait-for-vercel-preview/issues"},"homepage":"https://github.com/patrickedqvist/wait-for-vercel-preview#readme","dependencies":{"@actions/core":"^1.4.0","@actions/github":"^5.0.0","@octokit/webhooks-definitions":"^3.67.3","@vercel/ncc":"^0.33.1","axios":"^0.21.1","set-cookie-parser":"^2.4.8"},"devDependencies":{"@types/jest":"^27.4.0","deepmerge":"^4.2.2","jest":"^27.4.7","msw":"^0.36.4"}}');
+module.exports = JSON.parse('{"name":"wait-for-vercel-preview","version":"1.2.7","description":"","main":"dist/index.js","repository":{"type":"git","url":"git+https://github.com/chtbks/wait-for-vercel-preview.git"},"scripts":{"test":"jest --watch","test:ci":"jest --ci","test:ci:coverage":"jest --ci --collect-coverage  --silent","build":"ncc build index.js -o dist"},"keywords":[],"author":"","license":"ISC","bugs":{"url":"https://github.com/patrickedqvist/wait-for-vercel-preview/issues"},"homepage":"https://github.com/patrickedqvist/wait-for-vercel-preview#readme","dependencies":{"@actions/core":"^1.4.0","@actions/github":"^5.0.0","@octokit/webhooks-definitions":"^3.67.3","@vercel/ncc":"^0.33.1","axios":"^0.21.1","set-cookie-parser":"^2.4.8"},"devDependencies":{"@types/jest":"^27.4.0","deepmerge":"^4.2.2","jest":"^27.4.7","msw":"^0.36.4"}}');
 
 /***/ })
 
