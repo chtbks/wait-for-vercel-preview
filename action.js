@@ -224,9 +224,9 @@ const waitForDeploymentToStart = async ({
       const deployment =
         deployments.data.length > 0 &&
         deployments.data.find((deployment) => {
-          console.log('deployment', JSON.stringify(deployment));
           console.log('target_project', target_project);
-          console.log('deployment.target_url', deployment.target_url);
+          console.log('deployment.environment', deployment.environment);
+          console.log('Matched? ', deployment.environment.includes(target_project));
           return target_project === '' ? deployment.creator.login === actorName : deployment.creator.login === actorName && deployment.environment.includes(target_project);
         });
 
@@ -238,8 +238,9 @@ const waitForDeploymentToStart = async ({
           return deployment;
         } else {
           console.log('Target project', target_project);
-          console.log('Deployment target_url', deployment.target_url);
+          console.log('Deployment environment', deployment.environment);
           if (deployment.environment.includes(target_project)) {
+            console.log('Match found!');
             return deployment;
           }
         }
