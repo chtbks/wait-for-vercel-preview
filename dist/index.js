@@ -243,9 +243,9 @@ const waitForDeploymentToStart = async ({
 
       if (deployment) {
         return deployment;
+      } else {
+        throw new Error(`no ${actorName} deployment found`);
       }
-
-      throw new Error(`no ${actorName} deployment found`);
     } catch (e) {
       console.log(
         `Could not find any deployments for actor ${actorName}, retrying (attempt ${i + 1
