@@ -47,6 +47,7 @@ const waitForUrl = async ({
 
       let checkUri = new URL(path, url);
 
+      // @ts-ignore
       await axios.get(checkUri.toString(), {
         headers,
       });
@@ -85,6 +86,7 @@ const getPassword = async ({ url, vercelPassword }) => {
   const data = new URLSearchParams();
   data.append('_vercel_password', vercelPassword);
 
+  // @ts-ignore
   const response = await axios({
     url,
     method: 'post',
@@ -129,6 +131,7 @@ const waitForStatus = async ({
   allowInactive,
   checkIntervalInMilliseconds,
 }) => {
+  // @ts-ignore
   const octokit = new github.getOctokit(token);
   const iterations = calculateIterations(
     maxTimeout,
@@ -164,8 +167,7 @@ const waitForStatus = async ({
       throw new StatusError('Unknown status error');
     } catch (e) {
       console.log(
-        `Deployment unavailable or not successful, retrying (attempt ${
-          i + 1
+        `Deployment unavailable or not successful, retrying (attempt ${i + 1
         } / ${iterations})`
       );
       if (e instanceof StatusError) {
@@ -209,6 +211,7 @@ const waitForDeploymentToStart = async ({
   actorName = 'vercel[bot]',
   maxTimeout = 20,
   checkIntervalInMilliseconds = 2000,
+  target_project = ''
 }) => {
   const iterations = calculateIterations(
     maxTimeout,
@@ -230,15 +233,22 @@ const waitForDeploymentToStart = async ({
           return deployment.creator.login === actorName;
         });
 
+      console.log(`Deployment found: ${deployment}`);
+
       if (deployment) {
-        return deployment;
+        if (target_project === '') {
+          return deployment;
+        } else {
+          if (deployment.target_url.includes(target_project)) {
+            return deployment;
+          }
+        }
       }
 
       throw new Error(`no ${actorName} deployment found`);
     } catch (e) {
       console.log(
-        `Could not find any deployments for actor ${actorName}, retrying (attempt ${
-          i + 1
+        `Could not find any deployments for actor ${actorName}, retrying (attempt ${i + 1
         } / ${iterations})`
       );
       await wait(checkIntervalInMilliseconds);
@@ -285,6 +295,7 @@ const run = async () => {
     const PATH = core.getInput('path') || '/';
     const CHECK_INTERVAL_IN_MS =
       (Number(core.getInput('check_interval')) || 2) * 1000;
+    const PROJECT_TARGET = core.getInput('project_target');
 
     // Fail if we have don't have a github token
     if (!GITHUB_TOKEN) {
@@ -326,7 +337,7 @@ const run = async () => {
       sha: sha,
       environment: ENVIRONMENT,
       actorName: 'vercel[bot]',
-      maxTimeout: MAX_TIMEOUT / 2,
+      maxTimeout: MAX_TIMEOUT,
       checkIntervalInMilliseconds: CHECK_INTERVAL_IN_MS,
     });
 
@@ -7847,8 +7858,9 @@ RedirectableRequest.prototype._processResponse = function (response) {
     var redirectUrlParts = url.parse(redirectUrl);
     Object.assign(this._options, redirectUrlParts);
 
-    // Drop the confidential headers when redirecting to another domain
-    if (!(redirectUrlParts.host === currentHost || isSubdomainOf(redirectUrlParts.host, currentHost))) {
+    // Drop confidential headers when redirecting to another scheme:domain
+    if (redirectUrlParts.protocol !== currentUrlParts.protocol ||
+       !isSameOrSubdomain(redirectUrlParts.host, currentHost)) {
       removeMatchingHeaders(/^(?:authorization|cookie)$/i, this._options.headers);
     }
 
@@ -8014,7 +8026,10 @@ function abortRequest(request) {
   request.abort();
 }
 
-function isSubdomainOf(subdomain, domain) {
+function isSameOrSubdomain(subdomain, domain) {
+  if (subdomain === domain) {
+    return true;
+  }
   const dot = subdomain.length - domain.length - 1;
   return dot > 0 && subdomain[dot] === "." && subdomain.endsWith(domain);
 }
