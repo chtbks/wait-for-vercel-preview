@@ -235,8 +235,6 @@ const waitForDeploymentToStart = async ({
           }
         });
 
-      console.log(`Deployment found: ${JSON.stringify(JSON.parse(deployment))}`);
-
       if (deployment) {
         return deployment;
       }
@@ -247,7 +245,7 @@ const waitForDeploymentToStart = async ({
         `Could not find any deployments for actor ${actorName}, retrying (attempt ${i + 1
         } / ${iterations})`
       );
-      console.error('Error: ', typeof e === "object" ? e.message : JSON.stringify(e));
+      console.error('Error: ', JSON.stringify(JSON.parse(e)));
       await wait(checkIntervalInMilliseconds);
     }
   }
