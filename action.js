@@ -205,7 +205,7 @@ const waitForDeploymentToStart = async ({
   actorName = 'vercel[bot]',
   maxTimeout = 20,
   checkIntervalInMilliseconds = 2000,
-  target_project = ''
+  target_project
 }) => {
   const iterations = calculateIterations(
     maxTimeout,
@@ -224,12 +224,13 @@ const waitForDeploymentToStart = async ({
       const deployment =
         deployments.data.length > 0 &&
         deployments.data.find((deployment) => {
-          return deployment.creator.login === actorName;
+          return target_project === '' ? deployment.creator.login === actorName : deployment.creator.login === actorName && deployment.target_url.includes(target_project);
         });
 
       console.log(`Deployment found: ${JSON.stringify(JSON.parse(deployment))}`);
 
       if (deployment) {
+        console.log('Target project', target_project);
         if (target_project === '') {
           return deployment;
         } else {
@@ -291,7 +292,7 @@ const run = async () => {
     const PATH = core.getInput('path') || '/';
     const CHECK_INTERVAL_IN_MS =
       (Number(core.getInput('check_interval')) || 2) * 1000;
-    const TARGET_PROJECT = core.getInput('target_project');
+    const TARGET_PROJECT = core.getInput('target_project') || '';
 
     // Fail if we have don't have a github token
     if (!GITHUB_TOKEN) {
@@ -335,7 +336,7 @@ const run = async () => {
       actorName: 'vercel[bot]',
       maxTimeout: MAX_TIMEOUT,
       checkIntervalInMilliseconds: CHECK_INTERVAL_IN_MS,
-      target_project: TARGET_PROJECT || ''
+      target_project: TARGET_PROJECT
     });
 
     if (!deployment) {
